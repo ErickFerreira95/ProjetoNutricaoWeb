@@ -1,0 +1,44 @@
+#container {
+    border-radius: 20px;
+    width: 300px;
+    height: 450px;
+    background-color: #3CB371;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form {
+    text-align: center;
+}
+
+label {
+    font-family: calibri;
+    color: white;
+    padding-bottom: 2px;
+    padding-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#senha {
+    margin-bottom: 20px;
+}
+
+button {
+    display: flex;
+    justify-content: center;
+}
+
+#esqueciSenha {
+    padding-top: 20px;
+    font-family: Calibri;
+    color: white;
+}
+
+p {
+    
+    font-family: Calibri;
+    color: white;
+}
