@@ -18,7 +18,7 @@
                 <label>Senha:</label>
                 <input name="senha" th:field="*{senha}" type="password" id="senha" placeholder="Insira sua senha" class="form-control form-control-sm">
                 <button type="submit" class="btn btn-outline-light btn-sm px-5">Login</button>
-                <p id="esqueciSenha"><a href="#" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Esqueci minha senha</a></p>
+                <p id="esqueciSenha"><a th:href="@{/redefinirSenha}" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Esqueci minha senha</a></p>
                  </form>
             <p>Não tem uma conta? <a th:href="@{/criarUsuario}" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Cadastre-se</a></p>
         </div>

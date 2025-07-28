@@ -1,4 +1,4 @@
-package com.mycompany.ProjetoNutricaoWeb;
+package com.mycompany.ProjetoNutricaoWeb.service;
 
 import com.mycompany.ProjetoNutricaoWeb.data.UsuarioRepository;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
@@ -31,6 +31,19 @@ public class UsuarioService {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             // Compara a senha digitada com o hash armazenado
             return encoder.matches(senhaDigitada, usuario.getSenha());
+        }
+        return false;
+    }
+
+    public boolean atualizarSenhaPorEmail(String email, String novaSenha) {
+        UsuarioEntity usuario = usuarioRepository.findByEmail(email);
+
+        if (usuario != null) {
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String novaSenhaHash = encoder.encode(novaSenha);
+            usuario.setSenha(novaSenhaHash);
+            usuarioRepository.save(usuario);
+            return true;
         }
         return false;
     }

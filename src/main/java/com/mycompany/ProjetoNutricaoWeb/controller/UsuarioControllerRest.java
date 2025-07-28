@@ -1,6 +1,6 @@
 package com.mycompany.ProjetoNutricaoWeb.controller;
 
-import com.mycompany.ProjetoNutricaoWeb.UsuarioService;
+import com.mycompany.ProjetoNutricaoWeb.service.UsuarioService;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.mycompany.ProjetoNutricaoWeb.controller;
 
-import com.mycompany.ProjetoNutricaoWeb.UsuarioService;
+import com.mycompany.ProjetoNutricaoWeb.service.UsuarioService;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,6 +45,24 @@ public class UsuarioController {
         } else {
             model.addAttribute("erro", "Email ou senha inválida!");
             return "login";
+        }
+    }
+
+    @GetMapping("/redefinirSenha")
+    public String redefinirSenha(Model model) {
+        model.addAttribute("usuario", new UsuarioEntity());
+        return "redefinirSenha";
+    }
+
+    @PostMapping("/salvarNovaSenha")
+    public String salvarNovaSenha(@ModelAttribute("usuario") UsuarioEntity usuario, Model model) {
+        boolean atualizado = usuarioService.atualizarSenhaPorEmail(usuario.getEmail(), usuario.getSenha());
+
+        if (atualizado) {
+            return "redirect:/login";
+        } else {
+            model.addAttribute("erro", "E-mail não encontrado.");
+            return "redefinirSenha";
         }
     }
 }
