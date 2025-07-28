@@ -7,7 +7,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class LoginController {
     
     @GetMapping("/")
-    public String ola(){
+    public String getLoginView(){
     return "login";
+    }
+
+    @GetMapping("/cadastrarUsuario")
+    public String getCadastrarUsuarioView(){
+        return "cadastrarUsuario";
     }
 }
