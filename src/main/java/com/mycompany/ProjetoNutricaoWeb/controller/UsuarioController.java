@@ -2,6 +2,7 @@ package com.mycompany.ProjetoNutricaoWeb.controller;
 
 import com.mycompany.ProjetoNutricaoWeb.service.UsuarioService;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +15,9 @@ public class UsuarioController {
 
     @Autowired
     UsuarioService usuarioService;
+
+    @Autowired
+    AlimentoController alimentoController;
     
     @GetMapping("/login")
     public String getLoginView(Model model){
@@ -33,20 +37,22 @@ public class UsuarioController {
         if (usuario.getId() == null) {
             usuarioService.criarUsuario(usuario);
         }
-        return "redirect:/login";
+        return "login";
     }
 
     @PostMapping("/fazerLogin")
-    public String fazerLogin (@ModelAttribute("usuario") UsuarioEntity usuario, Model model) {
-        boolean autenticado = usuarioService.validarLogin(usuario.getEmail(), usuario.getSenha());
+    public String fazerLogin(@ModelAttribute("usuario") UsuarioEntity usuario, Model model, HttpSession session) {
+        UsuarioEntity usuarioAutenticado = usuarioService.validarLogin(usuario.getEmail(), usuario.getSenha());
 
-        if (autenticado) {
-            return "cadastrarUsuario";
+        if (usuarioAutenticado != null) {
+            session.setAttribute("usuarioLogado", usuarioAutenticado);
+            return "tabelaAlimentos";
         } else {
-            model.addAttribute("erro", "Email ou senha inválida!");
+            model.addAttribute("erro", "Email ou senha inválidos");
             return "login";
         }
     }
+
 
     @GetMapping("/redefinirSenha")
     public String redefinirSenha(Model model) {
@@ -54,12 +60,14 @@ public class UsuarioController {
         return "redefinirSenha";
     }
 
+
+
     @PostMapping("/salvarNovaSenha")
     public String salvarNovaSenha(@ModelAttribute("usuario") UsuarioEntity usuario, Model model) {
         boolean atualizado = usuarioService.atualizarSenhaPorEmail(usuario.getEmail(), usuario.getSenha());
 
         if (atualizado) {
-            return "redirect:/login";
+            return "login";
         } else {
             model.addAttribute("erro", "E-mail não encontrado.");
             return "redefinirSenha";

@@ -2,20 +2,20 @@
     margim: 0;
     padding:0;
     box-sizing: border-box;
-    font-family: "Calibri";
+    font-family: calibri;
 }
 
-body {
+#body {
     height: 100vh;
+    background-color: #202020;
 }
 
 nav.menuLateral {
     width: 300px;
     height: 100%;
-    background-color: #3CB371;
     padding-top: 40px;
 
-    box-shadow: 3px 0 0 black;
+    box-shadow: 3px 0 0 #FF0077;
     position: fixed;
     top:0;
     left:0;
@@ -30,7 +30,7 @@ ul li.itemMenu a {
     color: white;
     text-decoration: none;
     font-size: 20px;
-    padding: 10px 1%;
+    padding: 20px 4%;
     display: flex;
     margin-bottom: 20px;
 }
@@ -44,11 +44,11 @@ ul li.itemMenu {
 }
 
 ul li.itemMenu:hover {
-    background: black;
+    background: #FF0077;
 }
 
 #sair {
-    margin-top: 490px;
+    margin-top: 380px;
 }
 
 #container {

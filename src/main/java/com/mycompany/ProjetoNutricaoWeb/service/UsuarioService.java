@@ -12,6 +12,9 @@ public class UsuarioService {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     public UsuarioEntity criarUsuario(UsuarioEntity usuario) {
         usuario.setId(null);
 
@@ -24,15 +27,12 @@ public class UsuarioService {
         return usuario;
     }
 
-    public boolean validarLogin(String email, String senhaDigitada) {
+    public UsuarioEntity validarLogin(String email, String senha) {
         UsuarioEntity usuario = usuarioRepository.findByEmail(email);
-
-        if (usuario != null) {
-            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            // Compara a senha digitada com o hash armazenado
-            return encoder.matches(senhaDigitada, usuario.getSenha());
+        if (usuario != null && passwordEncoder.matches(senha, usuario.getSenha())) {
+            return usuario;
         }
-        return false;
+        return null;
     }
 
     public boolean atualizarSenhaPorEmail(String email, String novaSenha) {
