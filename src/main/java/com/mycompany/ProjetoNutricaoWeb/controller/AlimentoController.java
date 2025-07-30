@@ -19,4 +19,11 @@ public class AlimentoController {
         model.addAttribute("alimento", alimento);
         return "tabelaAlimentos";
     }
+
+    @GetMapping("/cadastroAlimentos")
+    public String cadastroAlimentos(Model model) {
+        AlimentoEntity alimento = new AlimentoEntity();
+        model.addAttribute("alimento", alimento);
+        return "cadastroAlimentos";
+    }
 }

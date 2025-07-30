@@ -20,7 +20,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/", "/login", "/criarUsuario", "/salvarUsuario", "/redefinirSenha","/salvarNovaSenha",
-                                "tabelaAlimentos").permitAll()
+                                "tabelaAlimentos", "cadastroAlimentos").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(login -> login

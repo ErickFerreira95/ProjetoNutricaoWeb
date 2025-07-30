@@ -2,7 +2,7 @@
     margim: 0;
     padding:0;
     box-sizing: border-box;
-    font-family: "Calibri";
+    font-family: calibri;
 }
 
 body {
@@ -12,10 +12,9 @@ body {
 nav.menuLateral {
     width: 300px;
     height: 100%;
-    background-color: #3CB371;
     padding-top: 40px;
 
-    box-shadow: 3px 0 0 black;
+    box-shadow: 3px 0 0 #FF0077;
     position: fixed;
     top:0;
     left:0;
@@ -30,7 +29,7 @@ ul li.itemMenu a {
     color: white;
     text-decoration: none;
     font-size: 20px;
-    padding: 10px 1%;
+    padding: 20px 4%;
     display: flex;
     margin-bottom: 20px;
 }
@@ -44,23 +43,35 @@ ul li.itemMenu {
 }
 
 ul li.itemMenu:hover {
-    background: black;
+    background: #FF0077;
 }
 
 #sair {
-    margin-top: 490px;
+    margin-top: 380px;
+}
+
+main {
+    background-color: #202020;
 }
 
 #container {
+    border-radius: 20px;
+    border: 3px solid #FF0077;
+    width: 1200px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-left: 300px;
-    margin-top: 40px;
 }
 
-#id {
-    width: 50px;
+h1 {
+    color: white !important;
 }
 
-th {
-    width: 200px;
+form {
+    text-align: center;
 }
+
 
