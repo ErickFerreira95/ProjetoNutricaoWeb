@@ -1,26 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Login</title>
-        <link rel="stylesheet" th:href="@{/css/login.css}">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-        <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
-    </head>
-    <body id="body" class="d-flex justify-content-center align-items-center vh-100">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+</head>
+<body id="body" class="d-flex justify-content-center align-items-center vh-100">
 
-        <div id="container">
-            <form action="#" th:action="@{/fazerLogin}" th:object="${usuario}" method="POST">
-                <label>Email:</label>
-                <input name="email" th:field="*{email}" type="email" id="email" placeholder="Insira seu email" class="form-control form-control-sm">
-                <label>Senha:</label>
-                <input name="senha" th:field="*{senha}" type="password" id="senha" placeholder="Insira sua senha" class="form-control form-control-sm">
-                <button type="submit" class="btn btn-outline-light btn-sm px-5">Login</button>
-                <p id="esqueciSenha"><a th:href="@{/redefinirSenha}" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Esqueci minha senha</a></p>
-                 </form>
-            <p>Não tem uma conta? <a th:href="@{/criarUsuario}" class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Cadastre-se</a></p>
-        </div>
-    </body>
+<div id="container">
+    <form action="#" th:action="@{/fazerLogin}" th:object="${usuario}" method="POST">
+        <label>Email:</label>
+        <input name="email" th:field="*{email}" type="email" id="email" placeholder="Insira seu email"
+               class="form-control form-control-sm">
+        <label>Senha:</label>
+        <input name="senha" th:field="*{senha}" type="password" id="senha" placeholder="Insira sua senha"
+               class="form-control form-control-sm">
+        <button type="submit" class="btn btn-outline-light btn-sm px-5">Login</button>
+        <p id="esqueciSenha"><a th:href="@{/redefinirSenha}"
+                                class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Esqueci
+            minha senha</a></p>
+    </form>
+    <p>Não tem uma conta? <a th:href="@{/criarUsuario}"
+                             class="link-light link-offset-2 link-underline-opacity-25 link-underline-opacity-100-hover">Cadastre-se</a>
+    </p>
+</div>
+</body>
 </html>
