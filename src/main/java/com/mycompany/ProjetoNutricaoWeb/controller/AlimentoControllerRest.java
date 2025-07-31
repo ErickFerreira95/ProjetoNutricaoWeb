@@ -21,4 +21,28 @@ public class AlimentoControllerRest {
         var novoAlimento = alimentoService.criarAlimento(alimento);
         return new ResponseEntity<>(novoAlimento, HttpStatus.CREATED);
     }
+
+    @PutMapping("/atualizar/{id}")
+    public ResponseEntity<AlimentoEntity> atualizarAlimento(@PathVariable Integer id, @RequestBody AlimentoEntity alimento) {
+        var alimentoAtualizado = alimentoService.atualizarAlimento(id, alimento);
+        return new ResponseEntity<>(alimentoAtualizado, HttpStatus.OK);
+    }
+
+    @GetMapping("/pesquisar/{id}")
+    public ResponseEntity<AlimentoEntity> getAlimentoById(@PathVariable Integer id) {
+        AlimentoEntity alimento = alimentoService.getAlimentoId(id);
+        return new ResponseEntity<>(alimento, HttpStatus.OK);
+    }
+
+    @GetMapping("/listar")
+    public ResponseEntity<List> getAllAlimentos() {
+        List<AlimentoEntity> alimentos = alimentoService.listarTodosAlimentos();
+        return new ResponseEntity<>(alimentos, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deletar/{id}")
+    public ResponseEntity deletarAlimento(@PathVariable Integer id) {
+        alimentoService.deletarAlimento(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

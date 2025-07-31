@@ -60,23 +60,25 @@
                         <th id="id">ID</th>
                         <th>Nome</th>
                         <th>Quantidade</th>
-                        <th>Proteínas</th>
-                        <th>Carboidratos</th>
-                        <th>Gorduras</th>
+                        <th>Proteína</th>
+                        <th>Carboidrato</th>
+                        <th>Gordura</th>
                         <th>Kcal</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Arroz</td>
-                        <td>100</td>
-                        <td>2.7g</td>
-                        <td>28g</td>
-                        <td>0.3g</td>
-                        <td>130</td>
+                    <tr th:each="alimento : ${listarAlimentos}">
+                        <td th:text="${alimento.id}">
+                        <td th:text="${alimento.nomeAlimento}">
+                        <td th:text="${alimento.quantidade}">
+                        <td th:text="${alimento.proteina}">
+                        <td th:text="${alimento.carboidrato}">
+                        <td th:text="${alimento.gordura}">
+                        <td th:text="${alimento.kcal}">
+                        <td> <a th:href="@{/atualizarAlimento/{id}(id=${alimento.id})}" class="btn btn-success"><i class="bi bi-pen"></i>  Editar</a>
+                            <a th:href="@{/deletarAlimento/{id}(id=${alimento.id})}" class="btn btn-danger"><i class="bi bi-trash3"></i>  Excluir</a>
+                        </td>
                     </tr>
-                    <!-- Adicione mais linhas conforme necessário -->
                     </tbody>
                 </table>
             </div>

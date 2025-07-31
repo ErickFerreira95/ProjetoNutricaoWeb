@@ -5,6 +5,8 @@ import com.mycompany.ProjetoNutricaoWeb.model.AlimentoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AlimentoService {
 
@@ -33,5 +35,14 @@ public class AlimentoService {
 
     public AlimentoEntity getAlimentoId(Integer alimentoId) {
         return alimentoRepository.findById(alimentoId).orElse(null);
+    }
+
+    public List<AlimentoEntity> listarTodosAlimentos() {
+        return alimentoRepository.findAll();
+    }
+
+    public void deletarAlimento(Integer alimentoId) {
+        AlimentoEntity alimento = getAlimentoId(alimentoId);
+        alimentoRepository.deleteById(alimento.getId());
     }
 }

@@ -69,7 +69,6 @@ public class UsuarioController {
             context.setAuthentication(auth);
             SecurityContextHolder.setContext(context);
             session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context);
-
             return "redirect:/tabelaAlimentos";
         } else {
             model.addAttribute("erro", "Email ou senha inválidos");
