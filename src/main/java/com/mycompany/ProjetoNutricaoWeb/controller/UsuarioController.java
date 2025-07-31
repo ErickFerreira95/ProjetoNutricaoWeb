@@ -77,16 +77,11 @@ public class UsuarioController {
         }
     }
 
-
-
-
     @GetMapping("/redefinirSenha")
     public String redefinirSenha(Model model) {
         model.addAttribute("usuario", new UsuarioEntity());
         return "redefinirSenha";
     }
-
-
 
     @PostMapping("/salvarNovaSenha")
     public String salvarNovaSenha(@ModelAttribute("usuario") UsuarioEntity usuario, Model model) {

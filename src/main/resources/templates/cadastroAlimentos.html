@@ -54,18 +54,88 @@
     <main>
         <div class="d-flex justify-content-center align-items-center vh-100">
             <div id="container" class="table-responsive">
-                <form id="cadastroAlimento" action="#">
+                <form id="cadastroAlimento" action="#" th:action="@{/salvarAlimento}" th:object="${alimento}" method="POST">
                     <h1>Cadastrar Alimento</h1>
-                    <input name="nomeAlimento" id="nomeAlimento" type="text" placeholder="Nome alimento" class="form-control mt-4 col-4" required minlength="2">
-                    <input name="quantidade" id="quantidade" type="number" placeholder="Quantidade(g)" class="form-control mt-4 col-4" required>
-                    <input name="proteina" id="proteina" type="number" placeholder="Qtd proteína(g)" class="form-control mt-4 col-4" required>
-                    <input name="carboidrato" id="carboidrato" type="number" placeholder="Qtd carboidrato(g)" class="form-control mt-4 col-4" required>
-                    <input name="gordura" id="gordura" type="number" placeholder="Qtd gordura(g)" class="form-control mt-4 col-4" required>
+                    <input name="nomeAlimento" id="nomeAlimento" type="text" th:field="*{nomeAlimento}" placeholder="Alimento" class="form-control mt-4 col-4" required minlength="2">
+                    <input name="quantidade" id="quantidade" type="number" th:field="*{quantidade}" placeholder="Quantidade" class="form-control mt-4 col-4" required>
+                    <input name="proteina" id="proteina" type="number" th:field="*{proteina}" placeholder="Proteína" class="form-control mt-4 col-4" required>
+                    <input name="carboidrato" id="carboidrato" type="number" th:field="*{carboidrato}" placeholder="Carboidrato" class="form-control mt-4 col-4" required>
+                    <input name="gordura" id="gordura" type="number" th:field="*{gordura}" placeholder="Gordura" class="form-control mt-4 col-4" required>
                     <br>
                     <button type="submit" class="btn btn-outline-light px-5">Cadastrar</button>
                 </form>
             </div>
         </div>
     </main>
+<script>
+    $(document).ready(function () {
+        $("#cadastroAlimento").validate({
+            rules: {
+                nomeAlimento: {
+                    required: true,
+                    text: true,
+                    minlength: 2
+                },
+                quantidade: {
+                    required: true,
+                    number: true,
+                    min: 1
+                },
+                proteina: {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                carboidrato: {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                gordura: {
+                    required: true,
+                    number: true,
+                    min: 0
+                }
+            },
+            messages: {
+                nomeAlimento: {
+                    required: "Informe o nome do alimento. Apenas letras são permitidas.",
+                    minlength: "Mínimo de 2 caracteres"
+                },
+                quantidade: {
+                    required: "Informe a quantidade. Apenas números são permitidos.",
+                    number: "Digite um número válido",
+                    min: "Deve ser maior que zero"
+                },
+                proteina: {
+                    required: "Informe a proteína. Apenas números são permitidos.",
+                    number: "Digite um número válido",
+                    min: "Não pode ser negativo"
+                },
+                carboidrato: {
+                    required: "Informe o carboidrato. Apenas números são permitidos.",
+                    number: "Digite um número válido",
+                    min: "Não pode ser negativo"
+                },
+                gordura: {
+                    required: "Informe a gordura. Apenas números são permitidos.",
+                    number: "Digite um número válido",
+                    min: "Não pode ser negativo"
+                }
+            },
+            submitHandler: function (form) {
+                // Tudo válido: pode enviar
+                alert("Alimento cadastrado com sucesso!");
+                form.submit();
+            }
+        });
+    });
+
+    document.getElementById("nomeAlimento").addEventListener("keypress", function(e) {
+                if (/\d/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+</script>
 </body>
 </html>

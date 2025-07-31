@@ -18,4 +18,20 @@ public class AlimentoService {
         alimentoRepository.save(alimento);
         return alimento;
     }
+
+    public AlimentoEntity atualizarAlimento(Integer alimentoId, AlimentoEntity alimentoEntity) {
+        AlimentoEntity alimento = getAlimentoId(alimentoId);
+        alimento.setNomeAlimento(alimentoEntity.getNomeAlimento());
+        alimento.setQuantidade(alimentoEntity.getQuantidade());
+        alimento.setProteina(alimentoEntity.getProteina());
+        alimento.setCarboidrato(alimentoEntity.getCarboidrato());
+        alimento.setGordura(alimentoEntity.getGordura());
+        alimento.setKcal(alimentoEntity.getKcal());
+        alimentoRepository.save(alimento);
+        return alimento;
+    }
+
+    public AlimentoEntity getAlimentoId(Integer alimentoId) {
+        return alimentoRepository.findById(alimentoId).orElse(null);
+    }
 }
