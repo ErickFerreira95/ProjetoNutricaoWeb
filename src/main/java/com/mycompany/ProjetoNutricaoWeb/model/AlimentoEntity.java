@@ -19,6 +19,18 @@ public class AlimentoEntity {
     private double gordura;
     private double kcal;
 
+    @ManyToOne
+    @JoinColumn(name = "idUsuario")
+    private UsuarioEntity usuario;
+
+    public UsuarioEntity getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioEntity usuario) {
+        this.usuario = usuario;
+    }
+
     public Integer getId() {
         return id;
     }

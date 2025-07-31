@@ -1,5 +1,6 @@
 package com.mycompany.ProjetoNutricaoWeb.controller;
 
+import com.mycompany.ProjetoNutricaoWeb.data.AlimentoRepository;
 import com.mycompany.ProjetoNutricaoWeb.model.AlimentoEntity;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import com.mycompany.ProjetoNutricaoWeb.service.AlimentoService;
@@ -11,6 +12,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.List;
 
 @Controller
 public class AlimentoController {
@@ -18,16 +22,20 @@ public class AlimentoController {
     @Autowired
     private AlimentoService alimentoService;
 
+    @Autowired
+    private AlimentoRepository repository;
+
     @GetMapping("/tabelaAlimentos")
     public String tabelaAlimentos(Model model, HttpSession session) {
-        UsuarioEntity usuarioLogado = (UsuarioEntity) session.getAttribute("usuarioLogado");
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
 
-        if (usuarioLogado == null) {
+        if (usuario == null) {
             return "redirect:/login"; // se não estiver logado
         }
 
-        model.addAttribute("usuario", usuarioLogado);
-        model.addAttribute("listarAlimentos", alimentoService.listarTodosAlimentos());
+        model.addAttribute("usuario", usuario);
+        List<AlimentoEntity> alimentos = repository.findByUsuario(usuario);
+        model.addAttribute("listarAlimentos", alimentos);
         return "tabelaAlimentos";
     }
 
@@ -43,14 +51,29 @@ public class AlimentoController {
         return "cadastroAlimentos";
     }*/
 
-    @GetMapping("/cadastroAlimentos")
+    /*@GetMapping("/cadastroAlimentos")
     public String cadastroAlimentos(Model model) {
         AlimentoEntity alimento = new AlimentoEntity();
         model.addAttribute("alimento", alimento);
         return "cadastroAlimentos";
+    }*/
+
+    @GetMapping("/cadastroAlimentos")
+    public String mostrarFormulario(HttpSession session, Model model) {
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+
+        model.addAttribute("alimento", new AlimentoEntity());
+
+        return "cadastroAlimentos";
     }
 
-    @PostMapping("/salvarAlimento")
+
+    /*@PostMapping("/salvarAlimento")
     public String salvarAlimento(@ModelAttribute("alimento") AlimentoEntity alimento, BindingResult result, Model model) {
         if (alimento.getId() == null) {
             alimentoService.criarAlimento(alimento);
@@ -59,5 +82,21 @@ public class AlimentoController {
             alimentoService.atualizarAlimento(alimento.getId(), alimento);
         }
         return "redirect:/tabelaAlimentos";
+    }*/
+
+    @PostMapping("/salvarAlimento")
+    public String salvarAlimento(@ModelAttribute("alimento") AlimentoEntity alimento,
+                                 HttpSession session,
+                                 RedirectAttributes redirectAttributes) {
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        alimento.setUsuario(usuario);
+        repository.save(alimento);
+
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Alimento cadastrado com sucesso!");
+        return "redirect:/cadastroAlimentos";
     }
 }
