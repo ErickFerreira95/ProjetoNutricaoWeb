@@ -42,12 +42,16 @@ public class UsuarioController {
     }
 
     @PostMapping("/salvarUsuario")
-    public String salvarUsuario(@ModelAttribute("usuario") UsuarioEntity usuario) {
-        if (usuario.getId() == null) {
+    public String salvarUsuario(@ModelAttribute("usuario") UsuarioEntity usuario, Model model) {
+        try {
             usuarioService.criarUsuario(usuario);
+            return "redirect:/login";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("erro", e.getMessage());
+            return "cadastrarUsuario";
         }
-        return "login";
     }
+
 
     @PostMapping("/fazerLogin")
     public String fazerLogin(@ModelAttribute("usuario") UsuarioEntity usuario, Model model, HttpSession session) {
@@ -87,7 +91,7 @@ public class UsuarioController {
         boolean atualizado = usuarioService.atualizarSenhaPorEmail(usuario.getEmail(), usuario.getSenha());
 
         if (atualizado) {
-            return "login";
+            return "redirect:/login";
         } else {
             model.addAttribute("erro", "E-mail não encontrado.");
             return "redefinirSenha";

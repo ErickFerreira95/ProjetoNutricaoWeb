@@ -15,7 +15,7 @@ public class UsuarioService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public UsuarioEntity criarUsuario(UsuarioEntity usuario) {
+    /*public UsuarioEntity criarUsuario(UsuarioEntity usuario) {
         usuario.setId(null);
 
         // Criptografar a senha com BCrypt
@@ -25,7 +25,23 @@ public class UsuarioService {
         usuario.setSenha(senhaCriptografada);
         usuarioRepository.save(usuario);
         return usuario;
+    }*/
+
+    public UsuarioEntity criarUsuario(UsuarioEntity usuario) {
+        // Verifica se já existe um usuário com o mesmo e-mail
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new IllegalArgumentException("E-mail já existe.");
+        }
+        usuario.setId(null);
+
+        // Criptografar a senha com BCrypt
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String senhaCriptografada = encoder.encode(usuario.getSenha());
+
+        usuario.setSenha(senhaCriptografada);
+        return usuarioRepository.save(usuario);
     }
+
 
     public UsuarioEntity validarLogin(String email, String senha) {
         UsuarioEntity usuario = usuarioRepository.findByEmail(email);
