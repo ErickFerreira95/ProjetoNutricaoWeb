@@ -65,10 +65,7 @@ public class AlimentoController {
         if (usuario == null) {
             return "redirect:/login";
         }
-
-
         model.addAttribute("alimento", new AlimentoEntity());
-
         return "cadastroAlimentos";
     }
 

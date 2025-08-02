@@ -15,8 +15,8 @@ public class AlimentoService {
 
     public AlimentoEntity criarAlimento(AlimentoEntity alimento) {
         alimento.setId(null);
-        double kcal = (alimento.getProteina() * 4) + (alimento.getCarboidrato() * 4) + (alimento.getGordura() * 9);
-        alimento.setKcal(kcal);
+        double kcal = (Double.parseDouble(alimento.getProteina()) * 4) + (Double.parseDouble(alimento.getCarboidrato()) * 4) + (Double.parseDouble(alimento.getGordura()) * 9);
+        alimento.setKcal(String.valueOf(kcal));
         alimentoRepository.save(alimento);
         return alimento;
     }

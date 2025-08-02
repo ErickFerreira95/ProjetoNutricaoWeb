@@ -13,11 +13,12 @@ public class AlimentoEntity {
 
     private Integer id;
     private String nomeAlimento;
-    private double quantidade;
-    private double proteina;
-    private double carboidrato;
-    private double gordura;
-    private double kcal;
+    private String quantidade;
+    private String proteina;
+    private String carboidrato;
+    private String gordura;
+    private String kcal;
+    private double kcalNumero;
 
     @ManyToOne
     @JoinColumn(name = "idUsuario")
@@ -47,44 +48,53 @@ public class AlimentoEntity {
         this.nomeAlimento = nomeAlimento;
     }
 
-    public double getQuantidade() {
+    public String getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(double quantidade) {
+    public void setQuantidade(String quantidade) {
         this.quantidade = quantidade;
     }
 
-    public double getProteina() {
+    public String getProteina() {
         return proteina;
     }
 
-    public void setProteina(double proteina) {
+    public void setProteina(String proteina) {
         this.proteina = proteina;
     }
 
-    public double getCarboidrato() {
+    public String getCarboidrato() {
         return carboidrato;
     }
 
-    public void setCarboidrato(double carboidrato) {
+    public void setCarboidrato(String carboidrato) {
         this.carboidrato = carboidrato;
     }
 
-    public double getGordura() {
+    public String getGordura() {
         return gordura;
     }
 
-    public void setGordura(double gordura) {
+    public void setGordura(String gordura) {
         this.gordura = gordura;
     }
 
-    public double getKcal() {
-        kcal = (proteina * 4) + (carboidrato * 4) + (gordura * 9);
+    public String getKcal() {
+        kcalNumero = (Double.parseDouble(proteina) * 4) + (Double.parseDouble(carboidrato) * 4) + (Double.parseDouble(gordura) * 9);
+        kcal = String.valueOf(kcalNumero);
         return kcal;
     }
 
-    public void setKcal(double kcal) {
+    public void setKcal(String kcal) {
         this.kcal = kcal;
+    }
+
+    public double getKcalNumero() {
+        return kcalNumero;
+    }
+
+    public void setKcalNumero(double kcalNumero) {
+        this.kcalNumero = kcalNumero;
     }
 }
