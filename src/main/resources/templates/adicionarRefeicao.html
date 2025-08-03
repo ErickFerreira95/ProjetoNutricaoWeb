@@ -54,11 +54,12 @@
 <main class="d-flex justify-content-center align-items-center vh-100">
   <div class="d-flex justify-content-center align-items-center vh-100">
     <div id="container1" class="table-responsive">
-      <form action="#" th:action="@{/buscarAlimento}" th:object="${alimento}" method="POST">
+      <form action="#" th:action="@{/buscarAlimento}" th:object="${alimento}" method="GET">
         <h3>Busque um alimento para<br>
           adicionar nas refeições</h3>
         <input name="nomeAlimento" id="nomeAlimento" type="text" th:field="*{nomeAlimento}" th:placeholder="'Alimento'" class="form-control mt-4 col-4" required minlength="2">
-        <input name="quantidade" id="quantidade" type="number" th:field="*{quantidade}" th:placeholder="'Quantidade'" class="form-control mt-4 col-4" required>
+        <input name="quantidade" id="quantidade" type="number" class="form-control mt-4 col-4" required th:value="${quantidadeInformada != null ? quantidadeInformada : ''}">
+
         <br>
         <button type="submit" class="btn btn-outline-light px-5">Buscar</button>
       </form>
@@ -67,7 +68,7 @@
 
   <div class="d-flex justify-content-center align-items-center vh-100">
     <div id="container2" class="table-responsive">
-      <form action="#" th:action="@{/buscarAlimento}" th:object="${alimento}" method="POST">
+      <form action="#">
           <label>Selecione a refeição:</label>
         <select id="selectRefeicoes" class="form-select" calibri-label="Default select example"><br>
             <option id="selecione" selected disabled value="">Selecione</option>
@@ -78,11 +79,10 @@
             <option id="refeicao5" value="">Refeição 5</option>
             <option id="refeicao6" value="">Refeição 6</option>
           </select>
-
-        <br><label>Proteína: <output id="proteina">0</output></label><br>
-        <label>Carboidrato: <output id="carboidrato">0</output></label><br>
-        <label>Gordura: <output id="gordura">0</output></label><br>
-        <label>Kcal: <output id="kcal">0</output></label><br>
+        <br><label>Proteína: <output id="proteina" th:text="${proteina}">0</output></label><br>
+        <label>Carboidrato: <output id="carboidrato" th:text="${carboidrato}">0</output></label><br>
+        <label>Gordura: <output id="gordura" th:text="${gordura}">0</output></label><br>
+        <label>Kcal: <output id="kcal" th:text="${kcal}">0</output></label><br>
         <br><button type="submit" class="btn btn-outline-light px-5">Adicionar</button>
       </form>
     </div>
@@ -94,6 +94,7 @@
                   e.preventDefault();
               }
           });
+
 </script>
 </body>
 </html>

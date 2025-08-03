@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class AlimentoController {
@@ -133,4 +131,42 @@ public class AlimentoController {
         model.addAttribute("alimento", new AlimentoEntity());
         return "adicionarRefeicao";
     }
+
+    @GetMapping("/buscarAlimento")
+    public String buscarAlimento(@RequestParam("nomeAlimento") String nomeAlimento,
+                                 @RequestParam("quantidade") double quantidadeInformada,
+                                 Model model) {
+
+        Optional<AlimentoEntity> alimentoOptional = repository.findByNomeAlimento(nomeAlimento);
+
+        if (alimentoOptional.isPresent()) {
+            AlimentoEntity alimento = alimentoOptional.get();
+
+            double fator = quantidadeInformada / Double.parseDouble(alimento.getQuantidade());
+
+            double proteina = Double.parseDouble(alimento.getProteina()) * fator;
+            double carboidrato = Double.parseDouble(alimento.getCarboidrato()) * fator;
+            double gordura = Double.parseDouble(alimento.getGordura()) * fator;
+            double kcal = Double.parseDouble(alimento.getKcal()) * fator;
+
+            String proteinaFormatada = String.format("%.1f", proteina);
+            String carboidratoFormatada = String.format("%.1f", carboidrato);
+            String gorduraFormatada = String.format("%.1f", gordura);
+            String kcalFormatada = String.format("%.1f", kcal);
+
+            model.addAttribute("alimento", alimento);
+            model.addAttribute("quantidadeInformada", quantidadeInformada);
+            model.addAttribute("proteina", proteinaFormatada);
+            model.addAttribute("carboidrato", carboidratoFormatada);
+            model.addAttribute("gordura", gorduraFormatada);
+            model.addAttribute("kcal", kcalFormatada);
+
+        } else {
+            model.addAttribute("erro", "Alimento não encontrado.");
+            model.addAttribute("alimento", new AlimentoEntity());
+        }
+
+        return "adicionarRefeicao";
+    }
+
 }

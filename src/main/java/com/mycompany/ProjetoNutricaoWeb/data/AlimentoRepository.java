@@ -5,10 +5,11 @@ import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AlimentoRepository extends JpaRepository<AlimentoEntity, Integer> {
 
-    AlimentoEntity findByNomeAlimento(String nomeAlimento);
+    Optional<AlimentoEntity> findByNomeAlimento(String nomeAlimento);
     List<AlimentoEntity> findByUsuario(UsuarioEntity usuario);
 
     List<AlimentoEntity> findByNomeAlimentoContaining(String nomeAlimento);
