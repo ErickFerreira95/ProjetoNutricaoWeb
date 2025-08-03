@@ -115,4 +115,10 @@ public class AlimentoController {
         }
         return "redirect:/tabelaAlimentos";
     }
+
+    @GetMapping("/deletarAlimento/{id}")
+    public String deletarAlimento(@PathVariable(value = "id") Integer id) {
+        alimentoService.deletarAlimento(id);
+        return "redirect:/tabelaAlimentos";
+    }
 }
