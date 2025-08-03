@@ -1,10 +1,142 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Alimento</title>
+    <link rel="stylesheet" th:href="@{/css/cadastroAlimentos.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 </head>
 <body>
+<nav class="menuLateral">
+    <ul>
+        <li class="itemMenu">
+            <a th:href="@{/tabelaAlimentos}">
+                <span class="icone"><i class="bi bi-table"></i></span>
+                <span class="txtLink">Tabela de Alimentos</span>
+            </a>
+        </li>
+        <li class="itemMenu">
+            <a th:href="@{/cadastroAlimentos}">
+                <span class="icone"><i class="bi bi-plus-lg"></i></span>
+                <span class="txtLink">Cadastro de Alimentos</span>
+            </a>
+        </li>
+        <li class="itemMenu">
+            <a href="#">
+                <span class="icone"><i class="bi bi-fork-knife"></i></span>
+                <span class="txtLink">Refeições</span>
+            </a>
+        </li>
+        <li class="itemMenu">
+            <a href="#">
+                <span class="icone"><i class="bi bi-plus-lg"></i></span>
+                <span class="txtLink">Adicionar Refeição</span>
+            </a>
+        </li>
+        <li class="itemMenu">
+            <a href="#">
+                <span class="icone"><i class="bi bi-calculator"></i></span>
+                <span class="txtLink">Cálculo TMB</span>
+            </a>
+        </li>
+        <li class="itemMenu" id="sair">
+            <a th:href="@{/login}">
+                <span class="icone"><i class="bi bi-box-arrow-left"></i></span>
+                <span class="txtLink">Sair</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<main>
+    <div class="d-flex justify-content-center align-items-center vh-100">
+        <div id="container" class="table-responsive">
+            <form id="cadastroAlimento" action="#" th:action="@{/salvarAlimentoEditado}" th:object="${alimento}" method="POST">
+                <h1>Editar Alimento</h1>
+                <input name="nomeAlimento" id="nomeAlimento" type="text" th:field="*{nomeAlimento}" th:placeholder="'Alimento'" class="form-control mt-4 col-4" required minlength="2">
+                <input name="quantidade" id="quantidade" type="number" th:field="*{quantidade}" th:placeholder="'Quantidade'" class="form-control mt-4 col-4" required>
+                <input name="proteina" id="proteina" type="number" th:field="*{proteina}" th:placeholder="'Proteína'" class="form-control mt-4 col-4" required>
+                <input name="carboidrato" id="carboidrato" type="number" th:field="*{carboidrato}" th:placeholder="'Carboidrato'" class="form-control mt-4 col-4" required>
+                <input name="gordura" id="gordura" type="number" th:field="*{gordura}" th:placeholder="'Gordura'" class="form-control mt-4 col-4" required>
+                <input type="hidden" th:field="*{id}">
+                <br>
+                <button type="submit" class="btn btn-outline-light px-5">Salvar</button>
+            </form>
+        </div>
+    </div>
+</main>
+<script>
+    $(document).ready(function () {
+        $("#cadastroAlimento").validate({
+            rules: {
+                nomeAlimento: {
+                    required: true,
+                    text: true,
+                    minlength: 2
+                },
+                quantidade: {
+                    required: true,
+                    number: true,
+                    min: 1
+                },
+                proteina: {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                carboidrato: {
+                    required: true,
+                    number: true,
+                    min: 0
+                },
+                gordura: {
+                    required: true,
+                    number: true,
+                    min: 0
+                }
+            },
+            messages: {
+                nomeAlimento: {
+                    required: "Informe o nome do alimento. Apenas letras são permitidas.",
+                    minlength: "Mínimo de 2 caracteres"
+                },
+                quantidade: {
+                    required: "Informe a quantidade. Apenas números são permitidos.",
+                    number: "Digite um número válido",
+                    min: "Deve ser maior que zero"
+                },
+                proteina: {
+                    required: "Informe a proteína. Apenas números são permitidos.",
+                    number: "Digite um número válido",
+                    min: "Não pode ser negativo"
+                },
+                carboidrato: {
+                    required: "Informe o carboidrato. Apenas números são permitidos.",
+                    number: "Digite um número válido",
+                    min: "Não pode ser negativo"
+                },
+                gordura: {
+                    required: "Informe a gordura. Apenas números são permitidos.",
+                    number: "Digite um número válido",
+                    min: "Não pode ser negativo"
+                }
+            },
+            submitHandler: function (form) {
+                // Tudo válido: pode enviar
+                alert("Alimento cadastrado com sucesso!");
+                form.submit();
+            }
+        });
+    });
 
+    document.getElementById("nomeAlimento").addEventListener("keypress", function(e) {
+                if (/\d/.test(e.key)) {
+                    e.preventDefault();
+                }
+            });
+</script>
 </body>
 </html>

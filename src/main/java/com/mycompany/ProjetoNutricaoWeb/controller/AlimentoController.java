@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -95,5 +96,23 @@ public class AlimentoController {
 
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Alimento cadastrado com sucesso!");
         return "redirect:/cadastroAlimentos";
+    }
+
+    @GetMapping("/editarAlimento/{id}")
+    public String editarAlimento(@PathVariable(value = "id") Integer id, Model model) {
+        AlimentoEntity alimento = alimentoService.getAlimentoId(id);
+        model.addAttribute("alimento", alimento);
+        return "editarAlimento";
+    }
+
+    @PostMapping("/salvarAlimentoEditado")
+    public String salvarAlimentoEditado(@ModelAttribute("alimento") AlimentoEntity alimento, BindingResult result, Model model) {
+        if (alimento.getId() == null) {
+            alimentoService.criarAlimento(alimento);
+            return "redirect:/cadastroAlimentos";
+        } else {
+            alimentoService.atualizarAlimento(alimento.getId(), alimento);
+        }
+        return "redirect:/tabelaAlimentos";
     }
 }
