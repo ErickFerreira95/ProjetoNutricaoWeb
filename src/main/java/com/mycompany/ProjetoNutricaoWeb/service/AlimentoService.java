@@ -40,7 +40,7 @@ public class AlimentoService {
     public List<AlimentoEntity> listarTodosAlimentos() {
         return alimentoRepository.findAll();
     }
-
+ 
     public void deletarAlimento(Integer alimentoId) {
         AlimentoEntity alimento = getAlimentoId(alimentoId);
         alimentoRepository.deleteById(alimento.getId());

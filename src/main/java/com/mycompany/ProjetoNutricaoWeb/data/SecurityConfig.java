@@ -25,7 +25,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/css/**", "/js/**", "/images/**",
                                 "/login", "/fazerLogin", "/criarUsuario", "/salvarUsuario",
-                                "/redefinirSenha", "/salvarNovaSenha", "/cadastroAlimentos", "/editarAlimento"
+                                "/redefinirSenha", "/salvarNovaSenha", "/cadastroAlimentos", "/editarAlimento",
+                                "/adicionarRefeicao"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

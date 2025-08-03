@@ -67,6 +67,7 @@ public class AlimentoController {
             return "redirect:/login";
         }
         model.addAttribute("alimento", new AlimentoEntity());
+        session.removeAttribute("mensagem");
         return "cadastroAlimentos";
     }
 
@@ -120,5 +121,16 @@ public class AlimentoController {
     public String deletarAlimento(@PathVariable(value = "id") Integer id) {
         alimentoService.deletarAlimento(id);
         return "redirect:/tabelaAlimentos";
+    }
+
+    @GetMapping("/adicionarRefeicao")
+    public String adicionarRefeicao(HttpSession session, Model model) {
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("alimento", new AlimentoEntity());
+        return "adicionarRefeicao";
     }
 }
