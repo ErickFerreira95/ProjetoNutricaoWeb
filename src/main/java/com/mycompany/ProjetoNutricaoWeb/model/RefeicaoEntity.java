@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "Refeicao1")
-public class Refeicao1Entity {
+public class RefeicaoEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -18,6 +18,7 @@ public class Refeicao1Entity {
     private String carboidrato;
     private String gordura;
     private String kcal;
+    private String refeicao;
 
     @ManyToOne
     @JoinColumn(name = "idUsuario")
@@ -85,5 +86,13 @@ public class Refeicao1Entity {
 
     public void setKcal(String kcal) {
         this.kcal = kcal;
+    }
+
+    public String getRefeicao() {
+        return refeicao;
+    }
+
+    public void setRefeicao(String refeicao) {
+        this.refeicao = refeicao;
     }
 }

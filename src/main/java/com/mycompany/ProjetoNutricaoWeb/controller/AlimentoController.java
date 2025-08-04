@@ -1,7 +1,9 @@
 package com.mycompany.ProjetoNutricaoWeb.controller;
 
 import com.mycompany.ProjetoNutricaoWeb.data.AlimentoRepository;
+import com.mycompany.ProjetoNutricaoWeb.data.RefeicaoRepository;
 import com.mycompany.ProjetoNutricaoWeb.model.AlimentoEntity;
+import com.mycompany.ProjetoNutricaoWeb.model.RefeicaoEntity;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import com.mycompany.ProjetoNutricaoWeb.service.AlimentoService;
 import jakarta.servlet.http.HttpSession;
@@ -23,6 +25,9 @@ public class AlimentoController {
 
     @Autowired
     private AlimentoRepository repository;
+
+    @Autowired
+    private RefeicaoRepository refeicaoRepository;
 
     @GetMapping("/tabelaAlimentos")
     public String tabelaAlimentos(Model model, HttpSession session) {
@@ -165,8 +170,39 @@ public class AlimentoController {
             model.addAttribute("erro", "Alimento não encontrado.");
             model.addAttribute("alimento", new AlimentoEntity());
         }
-
         return "adicionarRefeicao";
     }
 
+    @PostMapping("/adicionarAlimentoRefeicao")
+    public String adicionarAlimentoRefeicao(
+            @RequestParam("nomeAlimento") String nomeAlimento,
+            @RequestParam("quantidade") String quantidade,
+            @RequestParam("proteina") String proteina,
+            @RequestParam("carboidrato") String carboidrato,
+            @RequestParam("gordura") String gordura,
+            @RequestParam("kcal") String kcal,
+            @RequestParam("refeicao") String refeicao,
+            HttpSession session,
+            RedirectAttributes redirectAttributes) {
+
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        RefeicaoEntity novoItem = new RefeicaoEntity();
+        novoItem.setNomeAlimento(nomeAlimento);
+        novoItem.setQuantidade(quantidade);
+        novoItem.setProteina(proteina);
+        novoItem.setCarboidrato(carboidrato);
+        novoItem.setGordura(gordura);
+        novoItem.setKcal(kcal);
+        novoItem.setRefeicao(refeicao);
+        novoItem.setUsuario(usuario);
+
+        refeicaoRepository.save(novoItem);
+        redirectAttributes.addFlashAttribute("mensagemSucesso", "Alimento adicionado à refeição!");
+
+        return "redirect:/adicionarRefeicao";
+    }
 }

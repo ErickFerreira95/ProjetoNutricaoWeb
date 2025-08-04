@@ -68,23 +68,33 @@
 
   <div class="d-flex justify-content-center align-items-center vh-100">
     <div id="container2" class="table-responsive">
-      <form action="#">
-          <label>Selecione a refeição:</label>
-        <select id="selectRefeicoes" class="form-select" calibri-label="Default select example"><br>
-            <option id="selecione" selected disabled value="">Selecione</option>
-            <option id="refeicao1" value="">Refeição 1</option>
-            <option id="refeicao2" value="">Refeição 2</option>
-            <option id="refeicao3" value="">Refeição 3</option>
-            <option id="refeicao4" value="">Refeição 4</option>
-            <option id="refeicao5" value="">Refeição 5</option>
-            <option id="refeicao6" value="">Refeição 6</option>
-          </select>
-        <br><label>Proteína: <output id="proteina" th:text="${proteina}">0</output></label><br>
-        <label>Carboidrato: <output id="carboidrato" th:text="${carboidrato}">0</output></label><br>
-        <label>Gordura: <output id="gordura" th:text="${gordura}">0</output></label><br>
-        <label>Kcal: <output id="kcal" th:text="${kcal}">0</output></label><br>
+      <form method="POST" th:action="@{/adicionarAlimentoRefeicao}">
+        <label>Selecione a refeição:</label>
+        <select name="refeicao" class="form-select" required>
+          <option selected disabled value="">Selecione</option>
+          <option>Refeição 1</option>
+          <option>Refeição 2</option>
+          <option>Refeição 3</option>
+          <option>Refeição 4</option>
+          <option>Refeição 5</option>
+          <option>Refeição 6</option>
+        </select>
+
+        <input type="hidden" name="nomeAlimento" th:value="${alimento.nomeAlimento}">
+        <input type="hidden" name="quantidade" th:value="${quantidadeInformada}">
+        <input type="hidden" name="proteina" th:value="${proteina}">
+        <input type="hidden" name="carboidrato" th:value="${carboidrato}">
+        <input type="hidden" name="gordura" th:value="${gordura}">
+        <input type="hidden" name="kcal" th:value="${kcal}">
+
+        <br><label>Proteína: <output th:text="${proteina}">0</output></label><br>
+        <label>Carboidrato: <output th:text="${carboidrato}">0</output></label><br>
+        <label>Gordura: <output th:text="${gordura}">0</output></label><br>
+        <label>Kcal: <output th:text="${kcal}">0</output></label><br>
         <br><button type="submit" class="btn btn-outline-light px-5">Adicionar</button>
+        <br><p th:if="${mensagemSucesso}" th:text="${mensagemSucesso}" style="color:white;"></p>
       </form>
+
     </div>
   </div>
 </main>
