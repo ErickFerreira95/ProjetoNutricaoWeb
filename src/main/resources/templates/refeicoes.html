@@ -36,7 +36,7 @@
       </a>
     </li>
     <li class="itemMenu">
-      <a href="#">
+      <a th:href="@{/criarTmb}">
         <span class="icone"><i class="bi bi-calculator"></i></span>
         <span class="txtLink">Cálculo TMB</span>
       </a>
@@ -53,17 +53,19 @@
   <div id="container">
     <div class="col-12" th:each="entry : ${refeicoesMap}">
       <h4 th:text="${entry.key}"></h4>
+
       <div class="table-responsive mb-4">
         <table class="table text-center align-middle">
           <thead class="table-light">
           <tr>
-            <th id="id">ID</th>
+            <th>ID</th>
             <th>Nome</th>
             <th>Quantidade</th>
             <th>Proteína</th>
             <th>Carboidrato</th>
             <th>Gordura</th>
             <th>Kcal</th>
+            <th>Ações</th>
           </tr>
           </thead>
           <tbody>
@@ -71,14 +73,25 @@
             <td th:text="${alimento.id}"></td>
             <td th:text="${alimento.nomeAlimento}"></td>
             <td th:text="${alimento.quantidade}"></td>
-            <td th:text="${alimento.proteina}"></td>
-            <td th:text="${alimento.carboidrato}"></td>
-            <td th:text="${alimento.gordura}"></td>
-            <td th:text="${alimento.kcal}"></td>
-            <td><a th:href="@{/deletarAlimentoRefeicao/{id}(id=${alimento.id})}" class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i>  Excluir</a></td>
+            <td class="proteina" th:text="${alimento.proteina}"></td>
+            <td class="carboidrato" th:text="${alimento.carboidrato}"></td>
+            <td class="gordura" th:text="${alimento.gordura}"></td>
+            <td class="kcal" th:text="${alimento.kcal}"></td>
+            <td><a th:href="@{/deletarAlimentoRefeicao/{id}(id=${alimento.id})}" class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i> Excluir</a></td>
           </tr>
+
           <tr th:if="${#lists.isEmpty(entry.value)}">
             <td colspan="8">Nenhum alimento adicionado.</td>
+          </tr>
+
+          <!-- Linha com totais (será preenchida por JavaScript) -->
+          <tr class="table-secondary fw-bold">
+            <td colspan="3">Totais:</td>
+            <td class="total-proteina">0.00</td>
+            <td class="total-carboidrato">0.00</td>
+            <td class="total-gordura">0.00</td>
+            <td class="total-kcal">0.00</td>
+            <td></td>
           </tr>
           </tbody>
         </table>
@@ -86,5 +99,39 @@
     </div>
   </div>
 </main>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Para cada tabela de refeição
+    document.querySelectorAll('#container table').forEach(function (table) {
+      let totalProteina = 0, totalCarboidrato = 0, totalGordura = 0, totalKcal = 0;
+
+      // Soma os valores da tabela atual
+      table.querySelectorAll('tbody tr').forEach(function (row) {
+        const getNumber = (selector) => {
+          const cell = row.querySelector(selector);
+          return cell ? parseFloat(cell.textContent) || 0 : 0;
+        };
+
+        totalProteina += getNumber('.proteina');
+        totalCarboidrato += getNumber('.carboidrato');
+        totalGordura += getNumber('.gordura');
+        totalKcal += getNumber('.kcal');
+      });
+
+      // Atualiza os valores nas células de totais
+      const setTotal = (selector, valor) => {
+        const cell = table.querySelector(selector);
+        if (cell) {
+          cell.textContent = valor.toFixed(2);
+        }
+      };
+
+      setTotal('.total-proteina', totalProteina);
+      setTotal('.total-carboidrato', totalCarboidrato);
+      setTotal('.total-gordura', totalGordura);
+      setTotal('.total-kcal', totalKcal);
+    });
+  });
+</script>
 </body>
 </html>

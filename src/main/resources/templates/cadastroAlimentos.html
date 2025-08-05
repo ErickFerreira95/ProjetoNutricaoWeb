@@ -38,7 +38,7 @@
             </a>
         </li>
         <li class="itemMenu">
-            <a href="#">
+            <a th:href="@{/criarTmb}">
                 <span class="icone"><i class="bi bi-calculator"></i></span>
                 <span class="txtLink">Cálculo TMB</span>
             </a>
@@ -57,10 +57,10 @@
                 <form id="cadastroAlimento" action="#" th:action="@{/salvarAlimento}" th:object="${alimento}" method="POST">
                     <h1>Cadastrar Alimento</h1>
                     <input name="nomeAlimento" id="nomeAlimento" type="text" th:field="*{nomeAlimento}" th:placeholder="'Alimento'" class="form-control mt-4 col-4" required minlength="2">
-                    <input name="quantidade" id="quantidade" type="number" th:field="*{quantidade}" th:placeholder="'Quantidade'" class="form-control mt-4 col-4" required>
-                    <input name="proteina" id="proteina" type="number" th:field="*{proteina}" th:placeholder="'Proteína'" class="form-control mt-4 col-4" required>
-                    <input name="carboidrato" id="carboidrato" type="number" th:field="*{carboidrato}" th:placeholder="'Carboidrato'" class="form-control mt-4 col-4" required>
-                    <input name="gordura" id="gordura" type="number" th:field="*{gordura}" th:placeholder="'Gordura'" class="form-control mt-4 col-4" required>
+                    <input name="quantidade" id="quantidade" type="number" step="0.1" th:field="*{quantidade}" th:placeholder="'Quantidade'" class="form-control mt-4 col-4" required>
+                    <input name="proteina" id="proteina" type="number" step="0.1" th:field="*{proteina}" th:placeholder="'Proteína'" class="form-control mt-4 col-4" required>
+                    <input name="carboidrato" id="carboidrato" type="number" step="0.1" th:field="*{carboidrato}" th:placeholder="'Carboidrato'" class="form-control mt-4 col-4" required>
+                    <input name="gordura" id="gordura" type="number" step="0.1" th:field="*{gordura}" th:placeholder="'Gordura'" class="form-control mt-4 col-4" required>
                     <br>
                     <button type="submit" class="btn btn-outline-light px-5">Cadastrar</button>
                     <p th:if="${mensagemSucesso}" th:text="${mensagemSucesso}" style="color:white;"></p>

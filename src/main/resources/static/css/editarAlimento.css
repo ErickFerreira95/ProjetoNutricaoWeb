@@ -5,8 +5,9 @@
     font-family: calibri;
 }
 
-body {
+#body {
     height: 100vh;
+    background-color: #202020 !important;
 }
 
 nav.menuLateral {
@@ -51,7 +52,7 @@ ul li.itemMenu:hover {
 }
 
 main {
-    background-color: #202020;
+
 }
 
 #container {

@@ -15,7 +15,7 @@ public class TmbEntity {
     private String genero;
     private int idade;
     private int altura;
-    private int peso;
+    private Double peso;
     private Double fatorAtividade;
     private Double tmb;
 
@@ -63,11 +63,11 @@ public class TmbEntity {
         this.altura = altura;
     }
 
-    public int getPeso() {
+    public Double getPeso() {
         return peso;
     }
 
-    public void setPeso(int peso) {
+    public void setPeso(Double peso) {
         this.peso = peso;
     }
 

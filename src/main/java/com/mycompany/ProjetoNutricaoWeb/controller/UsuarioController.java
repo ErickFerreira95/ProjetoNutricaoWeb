@@ -113,9 +113,9 @@ public class UsuarioController {
         double tmb;
 
         if ("masculino".equalsIgnoreCase(tmbEntity.getGenero())) {
-            tmb = 66.47 + (13.75 * tmbEntity.getPeso()) + (5.00 * tmbEntity.getAltura()) - (6.76 * tmbEntity.getIdade());
+            tmb = 88.362 + (13.397 * tmbEntity.getPeso()) + (4.799 * tmbEntity.getAltura()) - (5.677 * tmbEntity.getIdade());
         } else {
-            tmb = 655.1 + (9.56 * tmbEntity.getPeso()) + (1.85 * tmbEntity.getAltura()) - (4.68 * tmbEntity.getIdade());
+            tmb = 447.593 + (9.247 * tmbEntity.getPeso()) + (3.098 * tmbEntity.getAltura()) - (4.330 * tmbEntity.getIdade());
         }
 
         double gastoTotal = tmb * tmbEntity.getFatorAtividade();
