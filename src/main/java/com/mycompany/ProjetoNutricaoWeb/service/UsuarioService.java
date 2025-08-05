@@ -1,6 +1,8 @@
 package com.mycompany.ProjetoNutricaoWeb.service;
 
+import com.mycompany.ProjetoNutricaoWeb.data.TmbRepository;
 import com.mycompany.ProjetoNutricaoWeb.data.UsuarioRepository;
+import com.mycompany.ProjetoNutricaoWeb.model.TmbEntity;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,6 +13,9 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    TmbRepository tmbRepository;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -62,5 +67,9 @@ public class UsuarioService {
             return true;
         }
         return false;
+    }
+
+    public TmbEntity salvarTmb(TmbEntity tmb) {
+        return tmbRepository.save(tmb);
     }
 }

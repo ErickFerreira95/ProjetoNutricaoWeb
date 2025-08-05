@@ -10,7 +10,7 @@
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 </head>
-<body>
+<body id="body">
 <nav class="menuLateral">
     <ul>
         <li class="itemMenu">
@@ -51,7 +51,7 @@
         </li>
     </ul>
 </nav>
-    <main>
+    <main class="container">
         <div class="d-flex justify-content-center align-items-center vh-100">
             <div id="container" class="table-responsive">
                 <form id="cadastroAlimento" action="#" th:action="@{/salvarAlimento}" th:object="${alimento}" method="POST">

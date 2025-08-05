@@ -1,5 +1,6 @@
 package com.mycompany.ProjetoNutricaoWeb.controller;
 
+import com.mycompany.ProjetoNutricaoWeb.model.TmbEntity;
 import com.mycompany.ProjetoNutricaoWeb.service.UsuarioService;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import jakarta.servlet.http.HttpSession;
@@ -96,5 +97,33 @@ public class UsuarioController {
             model.addAttribute("erro", "E-mail não encontrado.");
             return "redefinirSenha";
         }
+    }
+
+    @GetMapping("/criarTmb")
+    public String criarTmb(Model model) {
+        UsuarioEntity usuario = new UsuarioEntity();
+        model.addAttribute("usuario", usuario);
+        return "calculoTmb";
+    }
+
+    @PostMapping("/calcularTmb")
+    public String calcularTmb(@ModelAttribute("usuario") TmbEntity tmbEntity, Model model, HttpSession session) {
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
+        tmbEntity.setUsuario(usuario);
+        double tmb;
+
+        if ("masculino".equalsIgnoreCase(tmbEntity.getGenero())) {
+            tmb = 66.47 + (13.75 * tmbEntity.getPeso()) + (5.00 * tmbEntity.getAltura()) - (6.76 * tmbEntity.getIdade());
+        } else {
+            tmb = 655.1 + (9.56 * tmbEntity.getPeso()) + (1.85 * tmbEntity.getAltura()) - (4.68 * tmbEntity.getIdade());
+        }
+
+        double gastoTotal = tmb * tmbEntity.getFatorAtividade();
+
+        tmbEntity.setTmb(gastoTotal);
+        usuarioService.salvarTmb(tmbEntity);
+        String mensagem = String.format("Seu TMB é: %.1f kcal", gastoTotal);
+        model.addAttribute("mensagemSucesso", mensagem);
+        return "calculoTmb";
     }
 }

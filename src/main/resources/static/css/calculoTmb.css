@@ -5,9 +5,9 @@
     font-family: calibri;
 }
 
-body {
+#body {
     height: 100vh;
-    background-color: #202020 !important;
+    background-color: #202020;
 }
 
 nav.menuLateral {
@@ -51,32 +51,23 @@ ul li.itemMenu:hover {
     margin-top: 380px;
 }
 
-#container1 {
+main {
+
+}
+
+#container {
     border-radius: 20px;
     border: 3px solid #FF0077;
-    width: 500px;
-    height: 500px;
+    width: 1200px;
+    height: 700px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-left: 280px;
-    margin-right: 50px;
+    margin-left: 300px;
 }
 
-#container2 {
-    border-radius: 20px;
-    border: 3px solid #FF0077;
-    width: 500px;
-    height: 500px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-}
-
-h3 {
+h1 {
     color: white !important;
 }
 
@@ -84,8 +75,14 @@ form {
     text-align: center;
 }
 
+p {
+    color: white;
+}
+
+#txtFator {
+    padding-left: 20px;
+}
+
 label {
-fon-family: calibri;
-    font-size: 20px;
     color: white;
 }
