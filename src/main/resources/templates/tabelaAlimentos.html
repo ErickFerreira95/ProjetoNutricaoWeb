@@ -11,78 +11,95 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
 </head>
 <body id="body">
-    <nav class="menuLateral">
-        <ul>
-            <li class="itemMenu">
-                <a th:href="@{/tabelaAlimentos}">
-                    <span class="icone"><i class="bi bi-table"></i></span>
-                    <span class="txtLink">Tabela de Alimentos</span>
-                </a>
-            </li>
-            <li class="itemMenu">
-                <a th:href="@{/cadastroAlimentos}">
-                    <span class="icone"><i class="bi bi-plus-lg"></i></span>
-                    <span class="txtLink">Cadastro de Alimentos</span>
-                </a>
-            </li>
-            <li class="itemMenu">
-                <a href="#">
-                    <span class="icone"><i class="bi bi-fork-knife"></i></span>
-                    <span class="txtLink">Refeições</span>
-                </a>
-            </li>
-            <li class="itemMenu">
-                <a th:href="@{/adicionarRefeicao}">
-                    <span class="icone"><i class="bi bi-plus-lg"></i></span>
-                    <span class="txtLink">Adicionar Refeição</span>
-                </a>
-            </li>
-            <li class="itemMenu">
-                <a href="#">
-                    <span class="icone"><i class="bi bi-calculator"></i></span>
-                    <span class="txtLink">Cálculo TMB</span>
-                </a>
-            </li>
-            <li class="itemMenu" id="sair">
-                <a th:href="@{/login}">
-                    <span class="icone"><i class="bi bi-box-arrow-left"></i></span>
-                    <span class="txtLink">Sair</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <main>
-        <div id="container" class="d-flex justify-content-center vh-100">
-            <div class="table-responsive">
+<nav class="menuLateral">
+    <ul>
+        <li class="itemMenu">
+            <a th:href="@{/tabelaAlimentos}">
+                <span class="icone"><i class="bi bi-table"></i></span>
+                <span class="txtLink">Tabela de Alimentos</span>
+            </a>
+        </li>
+        <li class="itemMenu">
+            <a th:href="@{/cadastroAlimentos}">
+                <span class="icone"><i class="bi bi-plus-lg"></i></span>
+                <span class="txtLink">Cadastro de Alimentos</span>
+            </a>
+        </li>
+        <li class="itemMenu">
+            <a th:href="@{/refeicoes}">
+                <span class="icone"><i class="bi bi-fork-knife"></i></span>
+                <span class="txtLink">Refeições</span>
+            </a>
+        </li>
+        <li class="itemMenu">
+            <a th:href="@{/adicionarRefeicao}">
+                <span class="icone"><i class="bi bi-plus-lg"></i></span>
+                <span class="txtLink">Adicionar Refeição</span>
+            </a>
+        </li>
+        <li class="itemMenu">
+            <a href="#">
+                <span class="icone"><i class="bi bi-calculator"></i></span>
+                <span class="txtLink">Cálculo TMB</span>
+            </a>
+        </li>
+        <li class="itemMenu" id="sair">
+            <a th:href="@{/login}">
+                <span class="icone"><i class="bi bi-box-arrow-left"></i></span>
+                <span class="txtLink">Sair</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+<main class="container">
+    <div id="container">
+        <div class="col-12">
+            <div class="table-responsive mb-4">
                 <table class="table text-center align-middle">
                     <thead class="table-light">
                     <tr>
-                        <th id="id">ID</th>
+                        <th>ID</th>
                         <th>Nome</th>
                         <th>Quantidade</th>
                         <th>Proteína</th>
                         <th>Carboidrato</th>
                         <th>Gordura</th>
                         <th>Kcal</th>
+                        <th>Ações</th>
                     </tr>
                     </thead>
                     <tbody>
+                    <!-- Linhas de dados -->
                     <tr th:each="alimento : ${listarAlimentos}">
-                        <td th:text="${alimento.id}">
-                        <td th:text="${alimento.nomeAlimento}">
-                        <td th:text="${alimento.quantidade}">
-                        <td th:text="${alimento.proteina}">
-                        <td th:text="${alimento.carboidrato}">
-                        <td th:text="${alimento.gordura}">
-                        <td th:text="${alimento.kcal}">
-                        <td> <a th:href="@{/editarAlimento/{id}(id=${alimento.id})}" class="btn btn-success"><i class="bi bi-pen"></i>  Editar</a>
-                            <a th:href="@{/deletarAlimento/{id}(id=${alimento.id})}" class="btn btn-danger"><i class="bi bi-trash3"></i>  Excluir</a>
+                        <td th:text="${alimento.id}"></td>
+                        <td th:text="${alimento.nomeAlimento}"></td>
+                        <td th:text="${alimento.quantidade}"></td>
+                        <td th:text="${alimento.proteina}"></td>
+                        <td th:text="${alimento.carboidrato}"></td>
+                        <td th:text="${alimento.gordura}"></td>
+                        <td th:text="${alimento.kcal}"></td>
+                        <td>
+                            <div class="d-flex gap-2">
+                                <a th:href="@{/editarAlimento/{id}(id=${alimento.id})}" class="btn btn-success">
+                                    <i class="bi bi-pen"></i> Editar
+                                </a>
+                                <a th:href="@{/deletarAlimento/{id}(id=${alimento.id})}" class="btn btn-danger">
+                                    <i class="bi bi-trash3"></i> Excluir
+                                </a>
+                            </div>
                         </td>
+                    </tr>
+
+                    <!-- Linha de mensagem se lista estiver vazia -->
+                    <tr th:if="${#lists.isEmpty(listarAlimentos)}">
+                        <td colspan="8">Nenhum alimento cadastrado.</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
-    </main>
+    </div>
+</main>
+
 </body>
 </html>

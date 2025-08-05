@@ -14,8 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Controller
 public class AlimentoController {
@@ -90,10 +89,19 @@ public class AlimentoController {
     public String salvarAlimento(@ModelAttribute("alimento") AlimentoEntity alimento,
                                  HttpSession session,
                                  RedirectAttributes redirectAttributes) {
+
         UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
         if (usuario == null) {
             return "redirect:/login";
         }
+
+        // Calcula a kcal dinamicamente
+        Double proteina = alimento.getProteina() != null ? alimento.getProteina() : 0.0;
+        Double carboidrato = alimento.getCarboidrato() != null ? alimento.getCarboidrato() : 0.0;
+        Double gordura = alimento.getGordura() != null ? alimento.getGordura() : 0.0;
+
+        Double kcalCalculada = (proteina * 4) + (carboidrato * 4) + (gordura * 9);
+        alimento.setKcal(kcalCalculada);
 
         alimento.setUsuario(usuario);
         repository.save(alimento);
@@ -101,6 +109,7 @@ public class AlimentoController {
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Alimento cadastrado com sucesso!");
         return "redirect:/cadastroAlimentos";
     }
+
 
     @GetMapping("/editarAlimento/{id}")
     public String editarAlimento(@PathVariable(value = "id") Integer id, Model model) {
@@ -140,19 +149,19 @@ public class AlimentoController {
     @GetMapping("/buscarAlimento")
     public String buscarAlimento(@RequestParam("nomeAlimento") String nomeAlimento,
                                  @RequestParam("quantidade") double quantidadeInformada,
-                                 Model model) {
-
-        Optional<AlimentoEntity> alimentoOptional = repository.findByNomeAlimento(nomeAlimento);
+                                 Model model, HttpSession session) {
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
+        Optional<AlimentoEntity> alimentoOptional = alimentoService.buscarAlimentoPorNome(nomeAlimento, usuario);
 
         if (alimentoOptional.isPresent()) {
             AlimentoEntity alimento = alimentoOptional.get();
 
-            double fator = quantidadeInformada / Double.parseDouble(alimento.getQuantidade());
+            double fator = quantidadeInformada / alimento.getQuantidade();
 
-            double proteina = Double.parseDouble(alimento.getProteina()) * fator;
-            double carboidrato = Double.parseDouble(alimento.getCarboidrato()) * fator;
-            double gordura = Double.parseDouble(alimento.getGordura()) * fator;
-            double kcal = Double.parseDouble(alimento.getKcal()) * fator;
+            double proteina = alimento.getProteina() * fator;
+            double carboidrato = alimento.getCarboidrato() * fator;
+            double gordura = alimento.getGordura() * fator;
+            double kcal = alimento.getKcal() * fator;
 
             String proteinaFormatada = String.format("%.1f", proteina);
             String carboidratoFormatada = String.format("%.1f", carboidrato);
@@ -161,10 +170,10 @@ public class AlimentoController {
 
             model.addAttribute("alimento", alimento);
             model.addAttribute("quantidadeInformada", quantidadeInformada);
-            model.addAttribute("proteina", proteinaFormatada);
-            model.addAttribute("carboidrato", carboidratoFormatada);
-            model.addAttribute("gordura", gorduraFormatada);
-            model.addAttribute("kcal", kcalFormatada);
+            model.addAttribute("proteina", proteina);
+            model.addAttribute("carboidrato", carboidrato);
+            model.addAttribute("gordura", gordura);
+            model.addAttribute("kcal", kcal);
 
         } else {
             model.addAttribute("erro", "Alimento não encontrado.");
@@ -176,11 +185,11 @@ public class AlimentoController {
     @PostMapping("/adicionarAlimentoRefeicao")
     public String adicionarAlimentoRefeicao(
             @RequestParam("nomeAlimento") String nomeAlimento,
-            @RequestParam("quantidade") String quantidade,
-            @RequestParam("proteina") String proteina,
-            @RequestParam("carboidrato") String carboidrato,
-            @RequestParam("gordura") String gordura,
-            @RequestParam("kcal") String kcal,
+            @RequestParam("quantidade") double quantidade,
+            @RequestParam("proteina") double proteina,
+            @RequestParam("carboidrato") double carboidrato,
+            @RequestParam("gordura") double gordura,
+            @RequestParam("kcal") double kcal,
             @RequestParam("refeicao") String refeicao,
             HttpSession session,
             RedirectAttributes redirectAttributes) {
@@ -200,9 +209,34 @@ public class AlimentoController {
         novoItem.setRefeicao(refeicao);
         novoItem.setUsuario(usuario);
 
-        refeicaoRepository.save(novoItem);
+        alimentoService.salvarRefeicao(novoItem);
         redirectAttributes.addFlashAttribute("mensagemSucesso", "Alimento adicionado à refeição!");
 
         return "redirect:/adicionarRefeicao";
+    }
+
+    @GetMapping("/refeicoes")
+    public String mostrarTodasAsRefeicoes(Model model, HttpSession session) {
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        Map<String, List<RefeicaoEntity>> refeicoesMap = new LinkedHashMap<>();
+
+        for (int i = 1; i <= 6; i++) {
+            String nomeRefeicao = "Refeição " + i;
+            List<RefeicaoEntity> alimentos = refeicaoRepository.findByRefeicaoAndUsuario(nomeRefeicao, usuario);
+            refeicoesMap.put(nomeRefeicao, alimentos);
+        }
+
+        model.addAttribute("refeicoesMap", refeicoesMap);
+        return "refeicoes";
+    }
+
+    @GetMapping("/deletarAlimentoRefeicao/{id}")
+    public String deletarAlimentoRefeicao(@PathVariable(value = "id") Integer id) {
+        alimentoService.deletarAlimentoRefeiecao(id);
+        return "redirect:/refeicoes";
     }
 }

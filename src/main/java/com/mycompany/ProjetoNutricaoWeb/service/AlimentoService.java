@@ -1,11 +1,15 @@
 package com.mycompany.ProjetoNutricaoWeb.service;
 
 import com.mycompany.ProjetoNutricaoWeb.data.AlimentoRepository;
+import com.mycompany.ProjetoNutricaoWeb.data.RefeicaoRepository;
 import com.mycompany.ProjetoNutricaoWeb.model.AlimentoEntity;
+import com.mycompany.ProjetoNutricaoWeb.model.RefeicaoEntity;
+import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlimentoService {
@@ -13,10 +17,13 @@ public class AlimentoService {
     @Autowired
     AlimentoRepository alimentoRepository;
 
+    @Autowired
+    RefeicaoRepository refeicaoRepository;
+
     public AlimentoEntity criarAlimento(AlimentoEntity alimento) {
         alimento.setId(null);
-        double kcal = (Double.parseDouble(alimento.getProteina()) * 4) + (Double.parseDouble(alimento.getCarboidrato()) * 4) + (Double.parseDouble(alimento.getGordura()) * 9);
-        alimento.setKcal(String.valueOf(kcal));
+        double kcal = (alimento.getProteina() * 4) + (alimento.getCarboidrato() * 4) + (alimento.getGordura() * 9);
+        alimento.setKcal(kcal);
         alimentoRepository.save(alimento);
         return alimento;
     }
@@ -37,14 +44,29 @@ public class AlimentoService {
         return alimentoRepository.findById(alimentoId).orElse(null);
     }
 
+    public RefeicaoEntity getAlimentoRefeicaoId(Integer alimentoId) {
+        return refeicaoRepository.findById(alimentoId).orElse(null);
+    }
+
     public List<AlimentoEntity> listarTodosAlimentos() {
         return alimentoRepository.findAll();
     }
 
+    public Optional<AlimentoEntity> buscarAlimentoPorNome(String nomeAlimento, UsuarioEntity usuario) {
+        return alimentoRepository.findByNomeAlimentoAndUsuario(nomeAlimento, usuario);
+    }
 
+    public RefeicaoEntity salvarRefeicao(RefeicaoEntity refeicao) {
+        return refeicaoRepository.save(refeicao);
+    }
  
     public void deletarAlimento(Integer alimentoId) {
         AlimentoEntity alimento = getAlimentoId(alimentoId);
         alimentoRepository.deleteById(alimento.getId());
+    }
+
+    public void deletarAlimentoRefeiecao(Integer alimentoId) {
+        RefeicaoEntity alimento = getAlimentoRefeicaoId(alimentoId);
+        refeicaoRepository.deleteById(alimento.getId());
     }
 }

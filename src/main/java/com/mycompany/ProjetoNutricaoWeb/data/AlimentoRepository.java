@@ -11,6 +11,8 @@ public interface AlimentoRepository extends JpaRepository<AlimentoEntity, Intege
 
     Optional<AlimentoEntity> findByNomeAlimento(String nomeAlimento);
     List<AlimentoEntity> findByUsuario(UsuarioEntity usuario);
+    Optional<AlimentoEntity> findByNomeAlimentoAndUsuario(String nomeAlimento, UsuarioEntity usuario);
+
 
     List<AlimentoEntity> findByNomeAlimentoContaining(String nomeAlimento);
 

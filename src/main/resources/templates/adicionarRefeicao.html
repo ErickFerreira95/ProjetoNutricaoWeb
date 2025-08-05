@@ -26,7 +26,7 @@
       </a>
     </li>
     <li class="itemMenu">
-      <a href="#">
+      <a th:href="@{/refeicoes}">
         <span class="icone"><i class="bi bi-fork-knife"></i></span>
         <span class="txtLink">Refeições</span>
       </a>
@@ -58,10 +58,11 @@
         <h3>Busque um alimento para<br>
           adicionar nas refeições</h3>
         <input name="nomeAlimento" id="nomeAlimento" type="text" th:field="*{nomeAlimento}" th:placeholder="'Alimento'" class="form-control mt-4 col-4" required minlength="2">
-        <input name="quantidade" id="quantidade" type="number" class="form-control mt-4 col-4" required th:value="${quantidadeInformada != null ? quantidadeInformada : ''}">
+        <input name="quantidade" id="quantidade" type="number" class="form-control mt-4 col-4" th:placeholder="'Quantidade'" required th:value="${quantidadeInformada != null ? quantidadeInformada : ''}">
 
         <br>
         <button type="submit" class="btn btn-outline-light px-5">Buscar</button>
+        <br><p th:if="${erro}" th:text="${erro}" style="color:red;"></p>
       </form>
     </div>
   </div>

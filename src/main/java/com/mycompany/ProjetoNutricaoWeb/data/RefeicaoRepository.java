@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RefeicaoRepository extends JpaRepository<RefeicaoEntity, Integer> {
-    List<RefeicaoEntity> findByUsuario(UsuarioEntity usuario);
+    List<RefeicaoEntity> findByRefeicaoAndUsuario(String refeicao,UsuarioEntity usuario);
 }

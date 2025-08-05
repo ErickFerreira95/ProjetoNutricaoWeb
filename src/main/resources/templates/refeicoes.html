@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Refeições</title>
+  <link rel="stylesheet" th:href="@{/css/refeicoes.css}">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body id="body">
+<nav class="menuLateral">
+  <ul>
+    <li class="itemMenu">
+      <a th:href="@{/tabelaAlimentos}">
+        <span class="icone"><i class="bi bi-table"></i></span>
+        <span class="txtLink">Tabela de Alimentos</span>
+      </a>
+    </li>
+    <li class="itemMenu">
+      <a th:href="@{/cadastroAlimentos}">
+        <span class="icone"><i class="bi bi-plus-lg"></i></span>
+        <span class="txtLink">Cadastro de Alimentos</span>
+      </a>
+    </li>
+    <li class="itemMenu">
+      <a th:href="@{/listarRefeicoes}">
+        <span class="icone"><i class="bi bi-fork-knife"></i></span>
+        <span class="txtLink">Refeições</span>
+      </a>
+    </li>
+    <li class="itemMenu">
+      <a th:href="@{/adicionarRefeicao}">
+        <span class="icone"><i class="bi bi-plus-lg"></i></span>
+        <span class="txtLink">Adicionar Refeição</span>
+      </a>
+    </li>
+    <li class="itemMenu">
+      <a href="#">
+        <span class="icone"><i class="bi bi-calculator"></i></span>
+        <span class="txtLink">Cálculo TMB</span>
+      </a>
+    </li>
+    <li class="itemMenu" id="sair">
+      <a th:href="@{/login}">
+        <span class="icone"><i class="bi bi-box-arrow-left"></i></span>
+        <span class="txtLink">Sair</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+<main class="container">
+  <div id="container">
+    <div class="col-12" th:each="entry : ${refeicoesMap}">
+      <h4 th:text="${entry.key}"></h4>
+      <div class="table-responsive mb-4">
+        <table class="table text-center align-middle">
+          <thead class="table-light">
+          <tr>
+            <th id="id">ID</th>
+            <th>Nome</th>
+            <th>Quantidade</th>
+            <th>Proteína</th>
+            <th>Carboidrato</th>
+            <th>Gordura</th>
+            <th>Kcal</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="alimento : ${entry.value}">
+            <td th:text="${alimento.id}"></td>
+            <td th:text="${alimento.nomeAlimento}"></td>
+            <td th:text="${alimento.quantidade}"></td>
+            <td th:text="${alimento.proteina}"></td>
+            <td th:text="${alimento.carboidrato}"></td>
+            <td th:text="${alimento.gordura}"></td>
+            <td th:text="${alimento.kcal}"></td>
+            <td><a th:href="@{/deletarAlimentoRefeicao/{id}(id=${alimento.id})}" class="btn btn-danger btn-sm"><i class="bi bi-trash3"></i>  Excluir</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(entry.value)}">
+            <td colspan="8">Nenhum alimento adicionado.</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+</body>
+</html>

@@ -26,7 +26,7 @@ public class SecurityConfig {
                                 "/css/**", "/js/**", "/images/**",
                                 "/login", "/fazerLogin", "/criarUsuario", "/salvarUsuario",
                                 "/redefinirSenha", "/salvarNovaSenha", "/cadastroAlimentos", "/editarAlimento",
-                                "/adicionarRefeicao"
+                                "/adicionarRefeicao", "/refeicoes"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )

@@ -13,11 +13,11 @@ public class RefeicaoEntity {
 
     private Integer id;
     private String nomeAlimento;
-    private String quantidade;
-    private String proteina;
-    private String carboidrato;
-    private String gordura;
-    private String kcal;
+    private double quantidade;
+    private double proteina;
+    private double carboidrato;
+    private double gordura;
+    private double kcal;
     private String refeicao;
 
     @ManyToOne
@@ -48,51 +48,51 @@ public class RefeicaoEntity {
         this.nomeAlimento = nomeAlimento;
     }
 
-    public String getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(String quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public String getProteina() {
-        return proteina;
-    }
-
-    public void setProteina(String proteina) {
-        this.proteina = proteina;
-    }
-
-    public String getCarboidrato() {
-        return carboidrato;
-    }
-
-    public void setCarboidrato(String carboidrato) {
-        this.carboidrato = carboidrato;
-    }
-
-    public String getGordura() {
-        return gordura;
-    }
-
-    public void setGordura(String gordura) {
-        this.gordura = gordura;
-    }
-
-    public String getKcal() {
-        return kcal;
-    }
-
-    public void setKcal(String kcal) {
-        this.kcal = kcal;
-    }
-
     public String getRefeicao() {
         return refeicao;
     }
 
     public void setRefeicao(String refeicao) {
         this.refeicao = refeicao;
+    }
+
+    public double getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(double quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public double getProteina() {
+        return proteina;
+    }
+
+    public void setProteina(double proteina) {
+        this.proteina = proteina;
+    }
+
+    public double getCarboidrato() {
+        return carboidrato;
+    }
+
+    public void setCarboidrato(double carboidrato) {
+        this.carboidrato = carboidrato;
+    }
+
+    public double getGordura() {
+        return gordura;
+    }
+
+    public void setGordura(double gordura) {
+        this.gordura = gordura;
+    }
+
+    public double getKcal() {
+        return kcal;
+    }
+
+    public void setKcal(double kcal) {
+        this.kcal = kcal;
     }
 }
