@@ -3,6 +3,8 @@ package com.mycompany.ProjetoNutricaoWeb.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.text.DecimalFormat;
+
 @Data
 @Entity
 @Table(name = "Alimentos")

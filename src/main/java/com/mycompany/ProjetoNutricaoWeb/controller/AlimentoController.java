@@ -96,7 +96,7 @@ public class AlimentoController {
         }
 
         // Calcula a kcal dinamicamente
-        Double proteina = alimento.getProteina() != null ? alimento.getProteina() : 0.0;
+        Double proteina= alimento.getProteina() != null ? alimento.getProteina() : 0.0;
         Double carboidrato = alimento.getCarboidrato() != null ? alimento.getCarboidrato() : 0.0;
         Double gordura = alimento.getGordura() != null ? alimento.getGordura() : 0.0;
 
@@ -163,17 +163,12 @@ public class AlimentoController {
             double gordura = alimento.getGordura() * fator;
             double kcal = alimento.getKcal() * fator;
 
-            String proteinaFormatada = String.format("%.1f", proteina);
-            String carboidratoFormatada = String.format("%.1f", carboidrato);
-            String gorduraFormatada = String.format("%.1f", gordura);
-            String kcalFormatada = String.format("%.1f", kcal);
-
             model.addAttribute("alimento", alimento);
             model.addAttribute("quantidadeInformada", quantidadeInformada);
-            model.addAttribute("proteina", proteina);
-            model.addAttribute("carboidrato", carboidrato);
-            model.addAttribute("gordura", gordura);
-            model.addAttribute("kcal", kcal);
+            model.addAttribute("proteina", Math.round(proteina * 10.0) / 10.0);
+            model.addAttribute("carboidrato", Math.round(carboidrato * 10.0) / 10.0);
+            model.addAttribute("gordura", Math.round(gordura * 10.0) / 10.0);
+            model.addAttribute("kcal", Math.round(kcal * 10.0) / 10.0);
 
         } else {
             model.addAttribute("erro", "Alimento não encontrado.");
