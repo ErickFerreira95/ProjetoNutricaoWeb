@@ -2,8 +2,10 @@ package com.mycompany.ProjetoNutricaoWeb.service;
 
 import com.mycompany.ProjetoNutricaoWeb.data.AlimentoRepository;
 import com.mycompany.ProjetoNutricaoWeb.data.RefeicaoRepository;
+import com.mycompany.ProjetoNutricaoWeb.data.TmbRepository;
 import com.mycompany.ProjetoNutricaoWeb.model.AlimentoEntity;
 import com.mycompany.ProjetoNutricaoWeb.model.RefeicaoEntity;
+import com.mycompany.ProjetoNutricaoWeb.model.TmbEntity;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,9 @@ public class AlimentoService {
 
     @Autowired
     RefeicaoRepository refeicaoRepository;
+
+    @Autowired
+    TmbRepository tmbRepository;
 
     public AlimentoEntity criarAlimento(AlimentoEntity alimento) {
         alimento.setId(null);

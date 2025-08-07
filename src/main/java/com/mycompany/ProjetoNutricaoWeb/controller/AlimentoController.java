@@ -2,8 +2,10 @@ package com.mycompany.ProjetoNutricaoWeb.controller;
 
 import com.mycompany.ProjetoNutricaoWeb.data.AlimentoRepository;
 import com.mycompany.ProjetoNutricaoWeb.data.RefeicaoRepository;
+import com.mycompany.ProjetoNutricaoWeb.data.TmbRepository;
 import com.mycompany.ProjetoNutricaoWeb.model.AlimentoEntity;
 import com.mycompany.ProjetoNutricaoWeb.model.RefeicaoEntity;
+import com.mycompany.ProjetoNutricaoWeb.model.TmbEntity;
 import com.mycompany.ProjetoNutricaoWeb.model.UsuarioEntity;
 import com.mycompany.ProjetoNutricaoWeb.service.AlimentoService;
 import jakarta.servlet.http.HttpSession;
@@ -14,6 +16,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.*;
 
 @Controller
@@ -27,6 +31,9 @@ public class AlimentoController {
 
     @Autowired
     private RefeicaoRepository refeicaoRepository;
+
+    @Autowired
+    private TmbRepository tmbRepository;
 
     @GetMapping("/tabelaAlimentos")
     public String tabelaAlimentos(Model model, HttpSession session) {
@@ -210,7 +217,7 @@ public class AlimentoController {
         return "redirect:/adicionarRefeicao";
     }
 
-    @GetMapping("/refeicoes")
+    /*@GetMapping("/refeicoes")
     public String mostrarTodasAsRefeicoes(Model model, HttpSession session) {
         UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
         if (usuario == null) {
@@ -225,13 +232,66 @@ public class AlimentoController {
             refeicoesMap.put(nomeRefeicao, alimentos);
         }
 
+        model.addAttribute("usuario", usuario);
         model.addAttribute("refeicoesMap", refeicoesMap);
         return "refeicoes";
+    }*/
+
+    @GetMapping("/refeicoes")
+    public String mostrarTodasAsRefeicoes(Model model, HttpSession session) {
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioLogado");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        // Buscar a TMB do usuário
+        Optional<TmbEntity> tmbOptional = tmbRepository.findTopByUsuarioOrderByIdDesc(usuario);
+        if (tmbOptional.isEmpty()) {
+            model.addAttribute("mensagemErro", "Você ainda não cadastrou seus dados de TMB.");
+            return "refeicoes";
+        }
+
+        TmbEntity tmb = tmbOptional.get();
+
+        // Montar mapa de refeições
+        Map<String, List<RefeicaoEntity>> refeicoesMap = new LinkedHashMap<>();
+        for (int i = 1; i <= 6; i++) {
+            String nomeRefeicao = "Refeição " + i;
+            List<RefeicaoEntity> alimentos = refeicaoRepository.findByRefeicaoAndUsuario(nomeRefeicao, usuario);
+            refeicoesMap.put(nomeRefeicao, alimentos);
+        }
+
+        DecimalFormat df = new DecimalFormat("0.0", DecimalFormatSymbols.getInstance(Locale.US));
+        String tmbFormatado = df.format(tmb.getTmb());
+
+        model.addAttribute("tmbFormatado", tmbFormatado);
+        model.addAttribute("usuario", usuario); // Se quiser continuar usando
+        model.addAttribute("tmbDados", tmb); // TmbEntity
+        model.addAttribute("refeicoesMap", refeicoesMap);
+
+        return "refeicoes";
     }
+
 
     @GetMapping("/deletarAlimentoRefeicao/{id}")
     public String deletarAlimentoRefeicao(@PathVariable(value = "id") Integer id) {
         alimentoService.deletarAlimentoRefeiecao(id);
         return "redirect:/refeicoes";
     }
+
+
+    /*@GetMapping("/mostrarDados")
+    public String mostrarDados(@ModelAttribute("usuario") TmbEntity tmbEntity, Model model, HttpSession session) {
+        UsuarioEntity usuario = (UsuarioEntity) session.getAttribute("usuarioSession");
+        tmbEntity.setUsuario(usuario);
+
+        model.addAttribute("usuario", usuario.getNome());
+        model.addAttribute("tmb", tmbEntity.getIdade());
+        model.addAttribute("tmb", tmbEntity.getAltura());
+        model.addAttribute("tmb", tmbEntity.getPeso());
+        model.addAttribute("tmb", tmbEntity.getFatorAtividade());
+        model.addAttribute("tmb", tmbEntity.getTmb());
+        return "refeicoes";
+    }*/
 }

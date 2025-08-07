@@ -51,9 +51,19 @@
 </nav>
 <main class="container">
   <div id="container">
+    <div id="containerTopo">
+      <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
+      <p><strong>Idade:</strong> <span th:text="${tmbDados.idade}"></span></p>
+      <p><strong>Altura:</strong> <span th:text="${tmbDados.altura}"></span></p>
+      <p><strong>Peso:</strong> <span th:text="${tmbDados.peso}"></span></p>
+      <p><strong>Fator Atividade:</strong> <span th:text="${tmbDados.fatorAtividade}"></span></p>
+      <p><strong>TMB:</strong> <span th:text="${tmbFormatado}"></span></p>
+      <p><strong>Kcal Consumida:</strong> <span id="kcalConsumida"></span></p>
+
+    </div>
+
     <div class="col-12" th:each="entry : ${refeicoesMap}">
       <h4 th:text="${entry.key}"></h4>
-
       <div class="table-responsive mb-4">
         <table class="table text-center align-middle">
           <thead class="table-light">
@@ -132,6 +142,26 @@
       setTotal('.total-kcal', totalKcal);
     });
   });
+
+  document.addEventListener("DOMContentLoaded", function () {
+    let totalKcal = 0;
+
+    // Seleciona todas as células com classe 'kcal'
+    const kcalElements = document.querySelectorAll(".kcal");
+
+    kcalElements.forEach(function (cell) {
+      const valorTexto = cell.textContent.replace(",", ".").trim(); // troca vírgula por ponto
+      const valor = parseFloat(valorTexto);
+      if (!isNaN(valor)) {
+        totalKcal += valor;
+      }
+    });
+
+    // Atualiza o <span id="kcalConsumida">
+    const spanKcal = document.getElementById("kcalConsumida");
+    spanKcal.textContent = totalKcal.toFixed(1); // uma casa decimal
+  });
+
 </script>
 </body>
 </html>

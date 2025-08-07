@@ -69,3 +69,21 @@ th {
 h4 {
     color: white !important;
 }
+
+#containerTopo {
+    padding-top: 10px;
+    padding-left: 10px;
+    margin-bottom: 30px;
+    border-radius: 20px;
+    border: 3px solid #FF0077;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    color: white;
+}
+
+p {
+    color: white;
+}
