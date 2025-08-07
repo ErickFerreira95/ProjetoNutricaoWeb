@@ -56,6 +56,7 @@ ul li.itemMenu:hover {
     margin-top: 40px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 #id {
@@ -71,6 +72,8 @@ h4 {
 }
 
 #containerTopo {
+    width: 300px;
+    height: 300px;
     padding-top: 10px;
     padding-left: 10px;
     margin-bottom: 30px;
@@ -78,6 +81,7 @@ h4 {
     border: 3px solid #FF0077;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
 label {
